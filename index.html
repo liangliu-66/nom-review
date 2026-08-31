@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recensione NOM Sushi Vibes</title>
+  <style>
+    :root {
+      --star-active: #fbbc04;
+      --star-inactive: #e8eaed;
+      --star-stroke: #70757a;
+      --text-main: #1f1f1f;
+      --text-sub: #5e5e5e;
+      --border-color: #c7c7c7;
+      --blue-btn: #1a73e8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .review-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    .close-btn {
+      background: #f1f3f4;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-sub);
+      transition: background-color 0.2s;
+    }
+
+    .close-btn:hover {
+      background-color: #e8eaed;
+    }
+
+    /* User Profile Non Logged In */
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: #dadce0;
+      color: #5f6368;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-info .name {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    .user-info .subtext {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    /* Main Rating */
+    .main-rating {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .stars-group {
+      display: inline-flex;
+      flex-direction: row-reverse;
+      gap: 6px;
+    }
+
+    .stars-group input {
+      display: none;
+    }
+
+    .stars-group label {
+      font-size: 38px;
+      color: var(--star-inactive);
+      cursor: pointer;
+      transition: color 0.1s ease;
+      -webkit-text-stroke: 1px var(--star-stroke);
+    }
+
+    .stars-group label:hover,
+    .stars-group label:hover ~ label,
+    .stars-group input:checked ~ label {
+      color: var(--star-active);
+      -webkit-text-stroke: 0px;
+    }
+
+    .rating-text {
+      margin-top: 6px;
+      font-size: 14px;
+      color: var(--text-sub);
+      min-height: 20px;
+    }
+
+    /* Sub Ratings */
+    .sub-ratings {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 0 8px;
+    }
+
+    .sub-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sub-label {
+      font-size: 14px;
+      color: var(--text-main);
+    }
+
+    .sub-stars {
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 4px;
+    }
+
+    .sub-stars input {
+      display: none;
+    }
+
+    .sub-stars label {
+      font-size: 22px;
+      color: var(--star-inactive);
+      cursor: pointer;
+      -webkit-text-stroke: 1px var(--star-stroke);
+    }
+
+    .sub-stars label:hover,
+    .sub-stars label:hover ~ label,
+    .sub-stars input:checked ~ label {
+      color: var(--star-active);
+      -webkit-text-stroke: 0px;
+    }
+
+    /* Textarea */
+    .textbox {
+      width: 100%;
+      height: 90px;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 14px;
+      outline: none;
+      resize: none;
+      color: var(--text-main);
+    }
+
+    .textbox:focus {
+      border-color: var(--blue-btn);
+      border-width: 2px;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      margin-top: 16px;
+      background-color: var(--blue-btn);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 20px;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* Schermata Ringraziamento */
+    .thank-you-screen {
+      display: none;
+      text-align: center;
+      padding: 20px 10px;
+    }
+
+    .thank-you-screen h2 {
+      font-size: 20px;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .thank-you-screen p {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    .thank-you-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="review-card">
+    <div class="header">
+      <h1 class="title">NOM Sushi Vibes</h1>
+      <button class="close-btn" type="button" id="closeBtn" title="Chiudi e vai a Google">✕</button>
+    </div>
+
+    <!-- Contenuto Form Recensione -->
+    <div id="reviewContent">
+      <div class="user-profile">
+        <div class="avatar">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </div>
+        <div class="user-info">
+          <div class="name">Ospite</div>
+          <div class="subtext">Recensione anonima</div>
+        </div>
+      </div>
+
+      <form id="reviewForm">
+        <div class="main-rating">
+          <div class="stars-group">
+            <input type="radio" id="m5" name="main_rating" value="5" checked /><label for="m5">★</label>
+            <input type="radio" id="m4" name="main_rating" value="4" /><label for="m4">★</label>
+            <input type="radio" id="m3" name="main_rating" value="3" /><label for="m3">★</label>
+            <input type="radio" id="m2" name="main_rating" value="2" /><label for="m2">★</label>
+            <input type="radio" id="m1" name="main_rating" value="1" /><label for="m1">★</label>
+          </div>
+          <div class="rating-text" id="ratingLabel">Eccezionale</div>
+        </div>
+
+        <div class="sub-ratings">
+          <div class="sub-row">
+            <span class="sub-label">Cibo</span>
+            <div class="sub-stars">
+              <input type="radio" id="f5" name="food_rating" value="5" checked /><label for="f5">★</label>
+              <input type="radio" id="f4" name="food_rating" value="4" /><label for="f4">★</label>
+              <input type="radio" id="f3" name="food_rating" value="3" /><label for="f3">★</label>
+              <input type="radio" id="f2" name="food_rating" value="2" /><label for="f2">★</label>
+              <input type="radio" id="f1" name="food_rating" value="1" /><label for="f1">★</label>
+            </div>
+          </div>
+
+          <div class="sub-row">
+            <span class="sub-label">Servizio</span>
+            <div class="sub-stars">
+              <input type="radio" id="s5" name="service_rating" value="5" checked /><label for="s5">★</label>
+              <input type="radio" id="s4" name="service_rating" value="4" /><label for="s4">★</label>
+              <input type="radio" id="s3" name="service_rating" value="3" /><label for="s3">★</label>
+              <input type="radio" id="s2" name="service_rating" value="2" /><label for="s2">★</label>
+              <input type="radio" id="s1" name="service_rating" value="1" /><label for="s1">★</label>
+            </div>
+          </div>
+
+          <div class="sub-row">
+            <span class="sub-label">Ambiente</span>
+            <div class="sub-stars">
+              <input type="radio" id="a5" name="env_rating" value="5" checked /><label for="a5">★</label>
+              <input type="radio" id="a4" name="env_rating" value="4" /><label for="a4">★</label>
+              <input type="radio" id="a3" name="env_rating" value="3" /><label for="a3">★</label>
+              <input type="radio" id="a2" name="env_rating" value="2" /><label for="a2">★</label>
+              <input type="radio" id="a1" name="env_rating" value="1" /><label for="a1">★</label>
+            </div>
+          </div>
+        </div>
+
+        <textarea 
+          class="textbox" 
+          placeholder="Racconta agli altri le tue esperienze"
+        ></textarea>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Invia</button>
+      </form>
+    </div>
+
+    <!-- Schermata di Ringraziamento -->
+    <div class="thank-you-screen" id="thankYouScreen">
+      <div class="thank-you-icon">🙏</div>
+      <h2>Grazie per il tuo feedback!</h2>
+      <p>Apprezziamo molto la tua opinione. Il tuo contributo ci aiuterà a migliorare la qualità del nostro servizio e dell'esperienza da NOM Sushi Vibes.</p>
+    </div>
+  </div>
+
+  <script>
+    // Link per il reindirizzamento
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/CTUPMxO2t8uyEAE/review"; // Per 4 o 5 stelle
+    const GOOGLE_SEARCH_LINK = "https://www.google.com/search?q=NOM+Sushi+Vibes"; // Link per la X (ricerca Google)
+
+    const labels = {
+      1: "Pessimo",
+      2: "Scarso",
+      3: "Nella media",
+      4: "Molto buono",
+      5: "Eccezionale"
+    };
+
+    const mainInputs = document.querySelectorAll('input[name="main_rating"]');
+    const ratingLabel = document.getElementById('ratingLabel');
+    let selectedRating = 5;
+
+    mainInputs.forEach(input => {
+      input.addEventListener('change', (e) => {
+        selectedRating = parseInt(e.target.value);
+        ratingLabel.textContent = labels[selectedRating];
+      });
+    });
+
+    // Cliccando la X si viene reindirizzati a Google
+    document.getElementById('closeBtn').addEventListener('click', () => {
+      window.location.href = GOOGLE_SEARCH_LINK;
+    });
+
+    // Gestione invio modulo
+    document.getElementById('reviewForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      if (selectedRating >= 4) {
+        window.location.href = GOOGLE_REVIEW_LINK;
+      } else {
+        document.getElementById('reviewContent').style.display = 'none';
+        document.getElementById('thankYouScreen').style.display = 'block';
+      }
+    });
+  </script>
+
+</body>
+</html>
